@@ -1,5 +1,19 @@
 {
   "dependencies": {
+    "com.unity.addressables": {
+      "version": "1.21.18",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.assetbundle": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.scriptablebuildpipeline": "1.21.20",
+        "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.0",
       "depth": 0,
@@ -10,11 +24,20 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
-      "version": "1.8.9",
+      "version": "1.8.10",
       "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.mathematics": "1.2.1"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.cinemachine": {
+      "version": "2.9.7",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.31"
       },
       "url": "https://packages.unity.com"
     },
@@ -42,6 +65,12 @@
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
+    },
+    "com.unity.gameobject.folder": {
+      "version": "file:com.utj.gameobjectfolder",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.unity.ide.rider": {
       "version": "3.0.27",
@@ -118,6 +147,13 @@
         "com.unity.render-pipelines.core": "16.0.1"
       }
     },
+    "com.unity.scriptablebuildpipeline": {
+      "version": "1.21.20",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.searcher": {
       "version": "4.9.2",
       "depth": 2,
@@ -157,6 +193,16 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.tiny.character.controller": {
+      "version": "file:com.utj.charactercontroller",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.burst": "1.8.10",
+        "com.unity.visualscripting": "1.9.1",
+        "com.unity.collections": "1.2.4"
+      }
+    },
     "com.unity.ugui": {
       "version": "2.0.0",
       "depth": 0,
@@ -167,14 +213,34 @@
       }
     },
     "com.unity.visualscripting": {
-      "version": "1.8.0",
-      "depth": 0,
+      "version": "1.9.1",
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.ugui": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.utj.save.helper": {
+      "version": "file:com.utj.savedata",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.utj.scenario.importer": {
+      "version": "file:com.utj.scenarioimporter",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "utj.com.utj.scene_loader": {
+      "version": "file:com.utj.sceneloader",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.addressables": "1.19.19"
+      }
     },
     "com.unity.modules.accessibility": {
       "version": "1.0.0",

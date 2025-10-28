@@ -20,15 +20,67 @@ public class Readme : MonoBehaviour
     ① InputManager
     　・InputSystemを有効かする
     　　・PackageManagerでUnityRegistoryからInstallする
-    　・Projectウインドウ内にAsssets\InputManagerフォルダを
-    　・InputManagerというEmptyObject作成
+    　・Projectウインドウ内にAsssets\InputManagerフォルダを作成
+    　・ヒエラルキーにInputManagerというEmptyObject作成
     　　・PlayerInputコンポーネントを追加
     　　 ・Actionsプロパティに.InputActionsファイルを設定しAsssets\InputManagerフォルダ内に保存
     　　・↑を受信する処理を実装(PlayerInputReceiver）
 
-    Player
+    ②Player
+    　・Cinemachine
+    　　・PackageManagerでUnityRegistoryのPackagesからInstallする
+    　・Projectウインドウ内にAsssets\Playerフォルダを作成
+    　・ヒエラルキーにPlayerというEmptyObject作成
+    　　・子EmptyObjectを追加しCameraRootとする。Yは目線
+    　　・子にVirtualCameraオブジェクトを追加
+    　　　TransformをCameraRootと同じにする
+    　　　・FollowプロパティにCameraRootを指定
+        　・Bodyは3rdPersonFollow
+        　  ・RigのSholderOffsetのXを0にする
+    　　　　・RigのCameraDistanceを0にする
+        　・AimはDoNothing
+          ・NoiseはBasicMultiChannekPerlinのHandhold_tele_mild(なんでもいい）
+      ・CharacterControllerコンポーネントを追加する。ここの設定は好みで
+    　　　SkinWidth 0.02
+          Center 0, 0.82, 0
+          radius 0.3
+          Height=1.56
+    　　　　
+    　・TCC
+        ・C:\Develop\開発用ツール・ライブラリ類\TCC\Project_TCC-main.zip
+    　　　↑の中にReadme.mdファイル、インストール方法かいてある
+        「
+            2. **Zipフォルダを解凍**  
+               ダウンロードしたZipフォルダを解凍します。
 
+            3. **パッケージをプロジェクトに配置**  
+               解凍したフォルダから以下のパッケージを、自身のプロジェクトの`Packages`フォルダ以下に配置します。（あるいは、パッケージを参照します。）
+               - `com.utj.charactercontroller`（キャラクター制御）
+               - `com.utj.gameobjectfolder`（フォルダとして扱えるGameObject）
+               - `com.utj.savedata`（ゲームの進行データを保存する）
+               - `com.utj.scenarioimporter`（テキストからゲームで扱いやすい台本を抽出する）
+               - `com.utj.sceneloader`（シーンをGameObjectのように読込・解放する）
 
+            4. **Unityエディターの再起動**  
+               インポート完了後、Unityエディターを再起動します。  
+               **注意:** インポート直後は`UIElements`などの項目でエラーが発生することがあります。例えば、`TypeLoadException: Could not load type 'Utj.SceneManagement.SceneLoadType' from assembly 'GOSubSceneEditor'.` などですが、このエラーは次回起動以降は発生しませんので、無視してかまいません。
+    　　　
+        ## SceneLoaderの使用
 
+            SceneLoaderを使用する前に、Addressableが初期化されている必要があります。  
+            **注意:** Addressableが初期化されていない場合、SceneLoaderにシーンを登録する事ができません。
+
+            1. **Addressableの有効化**  
+               - メニューから`Window > Asset Management > Addressable > Group`を開きます。
+               - `Create Addressable Settings`ボタンを押してAddressableを有効にします。
+
+               ![SysInst_Image04.png](./Images/SysInst_Image04.png "SysInst_Image04")
+   
+    」
+        　・CharacterBrainコンポーネントを追加する。これが無いと動かない
+          ・MoveControlコンポーネントを追加する。
+            ・CharacterSettingコンポーネントももれなく追加される。
+    　　　　　HeightとRadiusをCharacterControllerと合わせておくといいかも
+          
      */
 }
