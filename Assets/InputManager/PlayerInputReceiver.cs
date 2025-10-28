@@ -18,7 +18,7 @@ public class PlayerInputReceiver : MonoBehaviour
     public static event Action<Vector2> OnPlayerMove;
     public static event Action<Vector2> OnPlayerLook;
     //public static event Action<Action> OnPlayerJump;
-    //public static event Action<bool> OnPlayerSprint;
+    public static event Action<bool> OnPlayerSprint;
     //public static event Action<bool> OnPlayerCrouch;
     //public static event Action<Vector2> OnPlayerMousePosition;
     //public static event Action<bool> OnPlayerAim;
@@ -50,9 +50,9 @@ public class PlayerInputReceiver : MonoBehaviour
     //[SerializeField]
     //private bool flying;
     //public bool JumpValue => flying;
-    //[SerializeField]
-    //private bool sprinting;
-    //public bool SprintValue => sprinting;
+    [SerializeField]
+    private bool sprinting;
+    public bool SprintValue => sprinting;
     //[SerializeField]
     //private bool crouching;
     //public bool CrouchValue => crouching;
@@ -80,11 +80,6 @@ public class PlayerInputReceiver : MonoBehaviour
     #region ActionMap Player
 
     #region PlayerMove
-
-    //private void OnMove(Vector2 delta)
-    //{
-    //    MoveInput(delta);
-    //}
 
     private void OnMove(InputValue value)
     {
@@ -116,9 +111,22 @@ public class PlayerInputReceiver : MonoBehaviour
     }
     #endregion
 
+    #region PlayerSprint
+
+    private void OnSprint(InputValue value)
+    {
+        SprintInput(value.isPressed);
+    }
+    public void SprintInput(bool newSprintState)
+    {
+        sprinting = newSprintState;
+        OnPlayerSprint?.Invoke(sprinting);
+    }
+
+    #endregion
+
     private void OnUIMode(InputValue value)
     {
-        //Debug.Log($"OnUIMode {ActionMapNameUI}");
         this.SwitchCurrentActionMap(ActionMapNameUI);
         
     }
@@ -128,7 +136,6 @@ public class PlayerInputReceiver : MonoBehaviour
     #region ActionMap UI
     private void OnPlayerMode(InputValue value)
     {
-        //Debug.Log($"OnUIMode {ActionMapNamePlayer}");
         this.SwitchCurrentActionMap(ActionMapNamePlayer);
 
     }
@@ -137,10 +144,8 @@ public class PlayerInputReceiver : MonoBehaviour
 
     protected void SwitchCurrentActionMap(string actionMapName)
     {
-        //Debug.Log($"this.SwitchCurrentActionMap {actionMapName}");
         _playerInput.SwitchCurrentActionMap( actionMapName);
         ActionMapName = _playerInput.currentActionMap.name;
-        //Debug.Log(_playerInput.currentActionMap.name);
     }
 
 
