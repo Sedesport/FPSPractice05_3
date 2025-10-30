@@ -870,7 +870,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 2
-  _turnSpeed: 15
+  _turnSpeed: 2
   _brakePower: 12
   _accelerator: 6
   _angle: 45
@@ -939,7 +939,7 @@ MonoBehaviour:
     x: 0
     y: 0
     z: 0
-  Pushable: 1
+  Pushable: 0
   _detectCollisions: 1
 --- !u!1 &1156591432
 GameObject:
