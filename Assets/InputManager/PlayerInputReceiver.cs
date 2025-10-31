@@ -8,27 +8,23 @@ using System;
 //[RequireComponent(typeof(PlayerInput))]
 public class PlayerInputReceiver : MonoBehaviour
 {
-
     #region const
-    string ActionMapNamePlayer = "Player";
-    string ActionMapNameUI = "UI";
+        string ActionMapNamePlayer = "Player";
+        string ActionMapNameUI = "UI";
     #endregion
 
     #region イベント定義
-    public static event Action<Vector2> OnPlayerMove;
-    public static event Action<Vector2> OnPlayerLook;
-    //public static event Action<Action> OnPlayerJump;
-    public static event Action<bool> OnPlayerSprint;
-    //public static event Action<bool> OnPlayerCrouch;
-    //public static event Action<Vector2> OnPlayerMousePosition;
-    //public static event Action<bool> OnPlayerAim;
-    //public static event Action<bool> OnPlayerTouch;
-    public static event Action<bool> OnPlayerUIMode;
+        public static event Action<Vector2> OnPlayerMove;
+        public static event Action<Vector2> OnPlayerLook;
+        //public static event Action<Action> OnPlayerJump;
+        public static event Action<bool> OnPlayerSprint;
+        //public static event Action<bool> OnPlayerCrouch;
+        //public static event Action<Vector2> OnPlayerMousePosition;
+        //public static event Action<bool> OnPlayerAim;
+        //public static event Action<bool> OnPlayerTouch;
+        public static event Action<bool> OnPlayerUIMode;
 
-    public static event Action<bool> OnUIPlayrMode;
-
-
-
+        public static event Action<bool> OnUIPlayrMode;
 
     #endregion
 
@@ -69,9 +65,6 @@ public class PlayerInputReceiver : MonoBehaviour
     [Header("Mouse Cursor Settings")]
     [SerializeField, Range(1, 80)]
     private int mouseDeltaScale = 10;
-
-    
-
 
     public bool cursorInputForLook = true;
 

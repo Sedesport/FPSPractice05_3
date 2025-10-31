@@ -143,15 +143,20 @@ public class PlayerCharacterController : MonoBehaviour
         if(_moveControl == null)
         { _moveControl = GetComponent<MoveControl>(); }
 
+        if(_tpsCameraControl == null)
+        { _tpsCameraControl = GetComponent<TpsCameraControl>(); }
+
     }
 
     private void OnEnable()
     {
         PlayerInputReceiver.OnPlayerMove += PlayerMove;
+        PlayerInputReceiver.OnPlayerLook += PlayerLook;
     }
     private void OnDisable()
     {
         PlayerInputReceiver.OnPlayerMove -= PlayerMove;
+        PlayerInputReceiver.OnPlayerLook -= PlayerLook;
     }
 
 
@@ -164,6 +169,15 @@ public class PlayerCharacterController : MonoBehaviour
             _moveControl.Move(v);
         }
         currentMoveDirection = v;Å@//à⁄ìÆï˚å¸ÇãLâØÇµÇƒÇ®Ç≠
+    }
+
+    #endregion
+
+    #region PlayerLook
+    public void PlayerLook(Vector2 v)
+    {
+        _tpsCameraControl?.RotateCamera(v);
+        lookRotating = v;
     }
     #endregion
 

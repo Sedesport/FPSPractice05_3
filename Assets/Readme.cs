@@ -49,6 +49,7 @@ public class Readme : MonoBehaviour
     　・TCC
         ・C:\Develop\開発用ツール・ライブラリ類\TCC\Project_TCC-main.zip
     　　　↑の中にReadme.mdファイル、インストール方法かいてある
+       *********************************************************************************
         「
             2. **Zipフォルダを解凍**  
                ダウンロードしたZipフォルダを解凍します。
@@ -76,11 +77,45 @@ public class Readme : MonoBehaviour
 
                ![SysInst_Image04.png](./Images/SysInst_Image04.png "SysInst_Image04")
    
-    」
+        」
+        *********************************************************************************
+       
         　・CharacterBrainコンポーネントを追加する。これが無いと動かない
           ・MoveControlコンポーネントを追加する。
             ・CharacterSettingコンポーネントももれなく追加される。
     　　　　　HeightとRadiusをCharacterControllerと合わせておくといいかも
+          ・PlayerCharacterControllerスクリプトを新規作成する。
+
+    　　　　・OnMoveを処理するPlayerMove。OnEnabledとOnDisableにも処理を書く
+
+                [SerializeField]
+                private bool onGround = true;
+    　　　　　　[SerializeField]
+                private Vector2 currentMoveDirection; //最新の移動方向
+
+                public void PlayerMove(Vector2 v)
+                {
+                    if (onGround == true)
+                    {
+                        //非ジャンプ状態の場合は普通に動く。
+                        _moveControl.Move(v);
+                    }
+                    currentMoveDirection = v;　//移動方向を記憶しておく
+                }
+          　　//この時点で実行すると、Wで全身だがadsは回転
+
+          ・TspCameraControlコンポーネントを追加する。cameraRootを指定。
+        　・PlayerCharacterControllerスクリプトにOnLook処理。OnEnabledとOnDisableにも処理を書く
+            [SerializeField]
+            private Vector2 lookRotating = Vector2.zero;
+
+            public void PlayerLook(Vector2 v)
+            {
+                _tpsCameraControl?.RotateCamera(v);
+                lookRotating = v;
+            }
           
+    　　　　//この時点で実行すると、マウスの動きで
+    　　　　上下(上下逆？DefaultTCCCameraSettingのInverseYをチェック) 左右に視線。adsは左右後に進行。
      */
 }
