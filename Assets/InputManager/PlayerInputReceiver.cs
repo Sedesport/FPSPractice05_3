@@ -26,6 +26,8 @@ public class PlayerInputReceiver : MonoBehaviour
 
         public static event Action<bool> OnUIPlayrMode;
 
+        public static event Action<bool> OnPlayerCursorLock;
+
     #endregion
 
     #region Fields
@@ -57,6 +59,9 @@ public class PlayerInputReceiver : MonoBehaviour
     //public bool IsAiming => aiming;
     [SerializeField]
     private Vector2 mousePosition;
+
+    [SerializeField]
+    private bool cursorLock = false;
 
     [SerializeField]
     private string ActionMapName;
@@ -118,11 +123,24 @@ public class PlayerInputReceiver : MonoBehaviour
 
     #endregion
 
+    #region UIMode
     private void OnUIMode(InputValue value)
     {
         this.SwitchCurrentActionMap(ActionMapNameUI);
         
     }
+    #endregion
+
+    #region CursorLock
+
+    private void OnCursorLock(InputValue value)
+    {
+        cursorLock = !cursorLock;
+        OnPlayerCursorLock?.Invoke(cursorLock);
+    }
+
+
+    #endregion
 
     #endregion
 
@@ -130,7 +148,6 @@ public class PlayerInputReceiver : MonoBehaviour
     private void OnPlayerMode(InputValue value)
     {
         this.SwitchCurrentActionMap(ActionMapNamePlayer);
-
     }
     #endregion
 

@@ -1,0 +1,1 @@
+﻿PlayrerInpurReceiverが必要

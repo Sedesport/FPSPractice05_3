@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using UnityEditor.Build.Pipeline.Interfaces;
 using Unity.TinyCharacterController.Control;
 using Unity.TinyCharacterController.Brain;
 using Unity.TinyCharacterController.Effect;
