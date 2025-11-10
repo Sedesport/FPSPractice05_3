@@ -28,6 +28,10 @@ public class PlayerCharacterController : MonoBehaviour
     private CursorPositionControl _cursorPositionControl;
     private CharacterSettings _characterSettings;
     private CharacterController _characterController;
+    private JumpControl _jumpControl = null;
+    private HeadContactCheck _headContactCheck = null;
+    private GroundCheck _groundCheck = null;
+    
 
     #endregion
 
@@ -123,9 +127,23 @@ public class PlayerCharacterController : MonoBehaviour
             }
         }
     }
+    [SerializeField]
+    private bool _isJump = false;
+    protected bool IsJump
+    {
+        get { return _isJump; }
+        set
+        {
+            if(_isJump != value)
+            { _isJump = value;}
+        }
+    }
 
     [SerializeField]
-    private bool onGround = true;
+    private bool onGround => ! IsJump;
+
+    [SerializeField]
+    private string GroundedObjectName;
 
     [SerializeField]
     private bool isCrunch = false; //かがみ中
@@ -165,7 +183,14 @@ public class PlayerCharacterController : MonoBehaviour
         if(_tpsCameraControl == null)
         { _tpsCameraControl = GetComponent<TpsCameraControl>(); }
 
+        if(_jumpControl == null)
+        { _jumpControl = GetComponent<JumpControl>(); }
 
+        if(_headContactCheck == null)
+        { _headContactCheck = GetComponent<HeadContactCheck>(); }
+
+        if(_groundCheck == null)
+        { _groundCheck = GetComponent<GroundCheck>(); }
 
 
         SetMoveSpeed();
@@ -178,6 +203,15 @@ public class PlayerCharacterController : MonoBehaviour
         PlayerInputReceiver.OnPlayerLook += PlayerLook;
 
         PlayerInputReceiver.OnPlayerSprint += PlayerSprint;
+        PlayerInputReceiver.OnPlayerJump += PlayerJump;
+
+
+        if (_groundCheck == null)
+        { _groundCheck = GetComponent<GroundCheck>(); }
+        _groundCheck.OnChangeGroundObject.AddListener(PlayerChangeObject);
+
+
+
     }
     private void OnDisable()
     {
@@ -185,6 +219,9 @@ public class PlayerCharacterController : MonoBehaviour
         PlayerInputReceiver.OnPlayerLook -= PlayerLook;
 
         PlayerInputReceiver.OnPlayerSprint -= PlayerSprint;
+        PlayerInputReceiver.OnPlayerJump -= PlayerJump;
+
+        _groundCheck?.OnChangeGroundObject.RemoveListener(PlayerChangeObject);
     }
 
 
@@ -216,6 +253,38 @@ public class PlayerCharacterController : MonoBehaviour
     }
     #endregion
 
+    #region PlayerJump
+    public void PlayerJump()
+    {
+
+        if(CanJump == false || IsJump )
+        {
+            //  プレイヤーがジャンプできない状態の場合、すぐにジャンプ終了
+            //callback.Invoke();
+            return;
+        }
+
+        Debug.Log("Jump");
+        _jumpControl.Jump(true);
+    }
+    //↓ジャンプ後に着地したら呼び出す関数
+    protected Action PlayerLandCallback;
+
+    public void PlayerChangeObject(GameObject obj)
+    {
+        GroundedObjectName = obj?.name ?? "null";
+        if(obj == null ) {
+            IsJump = true;
+        }
+        else
+        { IsJump = false;  }
+    }
+
+
+
+
+    #endregion
+
 
     protected void SetMoveSpeed()
     {
@@ -243,6 +312,11 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
         _moveControl.MoveSpeed = speed;
+    }
+
+    protected void SetJump()
+    {
+
     }
     
 }

@@ -120,9 +120,6 @@ public class Readme : MonoBehaviour
     　●PlayerSeeingViewControllerスクリプトを新規作成する。
     　　//実装内容は本文参照 RaycastHit処理で視認オブジェクト
     　　
-    　●
-    　●
-    　●
 
     ③CursorManager　EmptyObjectをヒエラルキーに新規作成
     　●CursorControllerという名前でScriptを新規作成。デバッグ実行ではカーソルは消えてくれない
@@ -174,5 +171,11 @@ public class Readme : MonoBehaviour
     }
             」
         *********************************************************************************
+        *
+        
+        ④GravityコンポーネントとGroundCheckコンポーネントを追加する。2つセット
+
      */
+
+
 }

@@ -21,6 +21,7 @@ public class PlayerInputReceiver : MonoBehaviour
         public static event Action<Vector2> OnPlayerLook;
         //public static event Action<Action> OnPlayerJump;
         public static event Action<bool> OnPlayerSprint;
+    public static event Action OnPlayerJump;
     //public static event Action<bool> OnPlayerCrouch;
     //public static event Action<Vector2> OnPlayerMousePosition;
     //public static event Action<bool> OnPlayerAim;
@@ -59,10 +60,12 @@ public class PlayerInputReceiver : MonoBehaviour
     public Vector2 LookValue => look;
     //[SerializeField]
     //private bool flying;
-    //public bool JumpValue => flying;
+    //public bool FlyValue => flying;
     [SerializeField]
     private bool sprinting;
     public bool SprintValue => sprinting;
+
+
     //[SerializeField]
     //private bool crouching;
     //public bool CrouchValue => crouching;
@@ -133,6 +136,23 @@ public class PlayerInputReceiver : MonoBehaviour
         OnPlayerSprint?.Invoke(sprinting);
     }
 
+    #endregion
+
+    #region PlayerJump
+    private void OnJump(InputValue value)
+    {
+        Debug.Log("PlayerInputReceiver:OnJump");
+          JumpInput();
+    }
+    public void JumpInput()
+    {
+        //if (flying == false)　
+        //{
+        //    flying = true;
+            //OnPlayerJump?.Invoke(flying);
+            OnPlayerJump?.Invoke();
+        //}
+    }
     #endregion
 
     #region UIMode
