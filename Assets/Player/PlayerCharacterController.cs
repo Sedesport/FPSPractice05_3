@@ -35,40 +35,48 @@ public class PlayerCharacterController : MonoBehaviour
 
     [Header("Movement settings")]
 
-    //[SerializeField]
-    //private bool canSprint = true;
-    //public bool CanSprint
-    //{
-    //    get { return canSprint; }
-    //    set
-    //    {
-    //        canSprint = value;
-    //        if (canSprint == false)
-    //        {
-    //            PlayerSprint(false);
-    //        }
-    //    }
-    //}
+    [SerializeField]
+    private bool _canSprint = true;
+    public bool CanSprint
+    {
+        get { return _canSprint; }
+        set
+        {
+            if (_canSprint != value)
+            {
+                _canSprint = value;
+                SetMoveSpeed();
+            }
+        }
+    }
 
-    //[SerializeField]
-    //private bool canJump = true;
-    //public bool CanJump
-    //{
-    //    get { return canJump; }
-    //    set { canJump = value; }
-    //}
+    [SerializeField]
+    private bool _canJump = true;
+    public bool CanJump
+    {
+        get { return _canJump; }
+        set {
+            if (_canJump != value)
+            {
+                _canJump = value;
+            }
+        }
+    }
 
-    //[SerializeField]
-    //private bool canCrounch = true;
-    //public bool CanCrounch
-    //{
-    //    get { return canCrounch; }
-    //    set
-    //    {
-    //        canCrounch = value;
-    //    }
-    //}
-
+    [SerializeField]
+    private bool canCrunch = true;
+    public bool CanCrunch
+    {
+        get { return canCrunch; }
+        set
+        {
+            if (canCrunch != value)
+            {
+                canCrunch = value;
+                SetMoveSpeed();
+            }
+        }
+    }
 
 
     [SerializeField]
@@ -81,10 +89,10 @@ public class PlayerCharacterController : MonoBehaviour
     public float CharacterHeightCrouching = 1f;
 
     [SerializeField]
-    public float Speed_Walk = 2;
+    public float Speed_Walk =6;
 
     [SerializeField]
-    public float Speed_Sprint = 8;
+    public float Speed_AddOfSprint = 2;
 
     [SerializeField]
     public float Speed_Crouch = 0.5f;
@@ -98,17 +106,29 @@ public class PlayerCharacterController : MonoBehaviour
     [SerializeField]
     private Vector2 currentMoveDirection; //最新の移動方向
 
-    [SerializeField]
-    private bool isMoving = false;
+    //[SerializeField]
+    //private bool isMoving = false;
 
     [SerializeField]
-    private bool isRunning = false;
+    private bool _isSprint = false;
+    protected bool IsSprint
+    {
+        get { return _isSprint; }
+        set
+        {
+            if (_isSprint != value)
+            {
+                _isSprint = value;
+                SetMoveSpeed();
+            }
+        }
+    }
 
     [SerializeField]
     private bool onGround = true;
 
     [SerializeField]
-    private bool isCrunching = false; //かがみ中
+    private bool isCrunch = false; //かがみ中
 
     //2025
     [SerializeField]
@@ -145,17 +165,26 @@ public class PlayerCharacterController : MonoBehaviour
         if(_tpsCameraControl == null)
         { _tpsCameraControl = GetComponent<TpsCameraControl>(); }
 
+
+
+
+        SetMoveSpeed();
+
     }
 
     private void OnEnable()
     {
         PlayerInputReceiver.OnPlayerMove += PlayerMove;
         PlayerInputReceiver.OnPlayerLook += PlayerLook;
+
+        PlayerInputReceiver.OnPlayerSprint += PlayerSprint;
     }
     private void OnDisable()
     {
         PlayerInputReceiver.OnPlayerMove -= PlayerMove;
         PlayerInputReceiver.OnPlayerLook -= PlayerLook;
+
+        PlayerInputReceiver.OnPlayerSprint -= PlayerSprint;
     }
 
 
@@ -180,4 +209,40 @@ public class PlayerCharacterController : MonoBehaviour
     }
     #endregion
 
+    #region PlayerSprint
+    public void PlayerSprint(bool pushed)
+    {
+        IsSprint = pushed;
+    }
+    #endregion
+
+
+    protected void SetMoveSpeed()
+    {
+        float speed　=0;
+
+        //空中時
+        if(onGround == false)
+        { 
+            //空中時は移動スピードを変更できない
+        }
+        //かがみ中
+        else if (CanCrunch && isCrunch)
+        {
+            speed = Speed_Crouch;
+        }
+        //走行中
+        else if (CanSprint && IsSprint)
+        {
+            speed = Speed_Walk + Speed_AddOfSprint;
+        }
+        //徒歩
+        else
+        {
+            speed = Speed_Walk;
+        }
+
+        _moveControl.MoveSpeed = speed;
+    }
+    
 }

@@ -16,7 +16,12 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 2d670395010b87d48a79fa088860f3c7
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 600c6c0ec3ccc9443b716507797a09ac
+    m_Address: Assets/LoafbrrAssets/MInesAndCaveSet/TestDemo.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: e4d5e1b1a58aefb46bf84ac44b20c128, type: 2}
   m_SchemaSet:

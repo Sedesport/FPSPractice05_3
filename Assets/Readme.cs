@@ -118,7 +118,7 @@ public class Readme : MonoBehaviour
     　　　　上下(上下逆？DefaultTCCCameraSettingのInverseYをチェック) 左右に視線。adsは左右後に進行。
 
     　●PlayerSeeingViewControllerスクリプトを新規作成する。
-    　　//実装内容は本文参照 RaycastHit処理
+    　　//実装内容は本文参照 RaycastHit処理で視認オブジェクト
     　　
     　●
     　●

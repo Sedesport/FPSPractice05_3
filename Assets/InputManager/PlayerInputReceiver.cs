@@ -1,32 +1,44 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using UnityEditor;
 
 
 //[RequireComponent(typeof(PlayerInput))]
 public class PlayerInputReceiver : MonoBehaviour
 {
     #region const
-        string ActionMapNamePlayer = "Player";
-        string ActionMapNameUI = "UI";
+        const string  ActionMapNamePlayer = "Player";
+        const string  ActionMapNameUI = "UI";
     #endregion
 
-    #region �C�x���g��`
-        public static event Action<Vector2> OnPlayerMove;
+    #region イベント定義
+
+    #region PlayerCharacterモード イベント
+    public static event Action<Vector2> OnPlayerMove;
         public static event Action<Vector2> OnPlayerLook;
         //public static event Action<Action> OnPlayerJump;
         public static event Action<bool> OnPlayerSprint;
-        //public static event Action<bool> OnPlayerCrouch;
-        //public static event Action<Vector2> OnPlayerMousePosition;
-        //public static event Action<bool> OnPlayerAim;
-        //public static event Action<bool> OnPlayerTouch;
-        public static event Action<bool> OnPlayerUIMode;
+    //public static event Action<bool> OnPlayerCrouch;
+    //public static event Action<Vector2> OnPlayerMousePosition;
+    //public static event Action<bool> OnPlayerAim;
+    //public static event Action<bool> OnPlayerTouch;
 
-        public static event Action<bool> OnUIPlayrMode;
 
-        public static event Action<bool> OnPlayerCursorLock;
+    public static event Action OnPlayerUIMode;
+    #endregion
+
+    #region UIモードイベント
+    public static event Action OnUIPlayerMode;
+    #endregion
+
+    #region ActionMapイベント
+    public static event Action<InputActionMap, InputActionMap> OnInputActionMapChanged;
+    #endregion
+
+    public static event Action<bool> OnPlayerCursorLock;
 
     #endregion
 
@@ -63,9 +75,9 @@ public class PlayerInputReceiver : MonoBehaviour
     [SerializeField]
     private bool cursorLock = false;
 
+    [Header("ActionMap")]
     [SerializeField]
     private string ActionMapName;
-
 
     [Header("Mouse Cursor Settings")]
     [SerializeField, Range(1, 80)]
@@ -127,7 +139,9 @@ public class PlayerInputReceiver : MonoBehaviour
     private void OnUIMode(InputValue value)
     {
         this.SwitchCurrentActionMap(ActionMapNameUI);
-        
+        OnPlayerUIMode?.Invoke();
+
+
     }
     #endregion
 
@@ -148,14 +162,17 @@ public class PlayerInputReceiver : MonoBehaviour
     private void OnPlayerMode(InputValue value)
     {
         this.SwitchCurrentActionMap(ActionMapNamePlayer);
+        OnUIPlayerMode?.Invoke();
     }
     #endregion
 
 
     protected void SwitchCurrentActionMap(string actionMapName)
     {
+        var previous = _playerInput.currentActionMap;
         _playerInput.SwitchCurrentActionMap( actionMapName);
         ActionMapName = _playerInput.currentActionMap.name;
+        OnInputActionMapChanged?.Invoke(previous, _playerInput.currentActionMap);
     }
 
 
@@ -167,7 +184,7 @@ public class PlayerInputReceiver : MonoBehaviour
             _playerInput = GetComponent<PlayerInput>();
         }
 
-        //�F�X
+        //色々
 
         ActionMapName = _playerInput.currentActionMap.name;
     }
