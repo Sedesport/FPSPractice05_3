@@ -22,10 +22,11 @@ public class PlayerInputReceiver : MonoBehaviour
         //public static event Action<Action> OnPlayerJump;
         public static event Action<bool> OnPlayerSprint;
     public static event Action OnPlayerJump;
-    //public static event Action<bool> OnPlayerCrouch;
+    public static event Action<bool> OnPlayerCrouch;
     //public static event Action<Vector2> OnPlayerMousePosition;
     //public static event Action<bool> OnPlayerAim;
     //public static event Action<bool> OnPlayerTouch;
+
 
 
     public static event Action OnPlayerUIMode;
@@ -63,12 +64,34 @@ public class PlayerInputReceiver : MonoBehaviour
     //public bool FlyValue => flying;
     [SerializeField]
     private bool sprinting;
-    public bool SprintValue => sprinting;
+    public bool SprintValue
+    {
+        get { return sprinting; }
+        set {
+            var previous = sprinting;
+            sprinting = value;
+            if(previous != value)
+            {
+                OnPlayerSprint?.Invoke(sprinting);
+            }
+        }
+    }
 
-
-    //[SerializeField]
-    //private bool crouching;
-    //public bool CrouchValue => crouching;
+    [SerializeField]
+    private bool crouching;
+    public bool CrouchValue
+    {
+        get { return crouching; }
+        set
+        {
+            var previous = crouching;
+            crouching = value;
+            if(previous != value)
+            {
+                OnPlayerCrouch?.Invoke(crouching);
+            }
+        }
+    }
     //[SerializeField]
     //private bool aiming;
     //public bool IsAiming => aiming;
@@ -133,7 +156,7 @@ public class PlayerInputReceiver : MonoBehaviour
     public void SprintInput(bool newSprintState)
     {
         sprinting = newSprintState;
-        OnPlayerSprint?.Invoke(sprinting);
+
     }
 
     #endregion
@@ -152,6 +175,17 @@ public class PlayerInputReceiver : MonoBehaviour
             //OnPlayerJump?.Invoke(flying);
             OnPlayerJump?.Invoke();
         //}
+    }
+    #endregion
+
+    #region PlayerCrouch
+    private void OnCrouch(InputValue value)
+    {
+        CrouchInput();
+    }
+    public void CrouchInput()
+    {
+        CrouchValue = !CrouchValue;
     }
     #endregion
 

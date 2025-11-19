@@ -87,10 +87,17 @@ public class PlayerCharacterController : MonoBehaviour
     public float CharacterRadius = 0.5f;
 
     [SerializeField]
-    public float CharacterHeight = 1.6f;
+    protected float CharacterNowHeight;
 
     [SerializeField]
-    public float CharacterHeightCrouching = 1f;
+    public float CharacterOriginalHeightStanding = 1.6f;
+
+    [SerializeField]
+    public float CharacterOriginalHeightCrouching = 1f;
+
+
+    //しゃがみ動作処理に使用する
+    protected Vector3  CameraRootOffset;
 
     [SerializeField]
     public float Speed_Walk =6;
@@ -146,7 +153,20 @@ public class PlayerCharacterController : MonoBehaviour
     private string GroundedObjectName;
 
     [SerializeField]
-    private bool isCrunch = false; //かがみ中
+    private bool _isCrunch = false; //かがみ中
+    protected bool IsCrouch
+    {
+        get { return _isCrunch; }
+        set
+        {
+            if(_isCrunch != value)
+            {
+                _isCrunch = value;
+                RefreshCrouch(value);
+            }
+        }
+    }
+
 
     //2025
     [SerializeField]
@@ -173,11 +193,19 @@ public class PlayerCharacterController : MonoBehaviour
     {
         if (_cameraRootTransform == null)
         { throw new NullReferenceException("_cameraRootTransform == null"); }
+        //身長PositionとカメラPositionとのオフセットを求める
+        CameraRootOffset = new Vector3(0, CharacterOriginalHeightStanding, 0) - _cameraRootTransform.position;
 
         if (_playerInputReceiver == null)
         { throw new NullReferenceException("_playerInputReceiver == null"); }
-        
-        if(_moveControl == null)
+
+        if(_characterController == null)
+        { _characterController = GetComponent<CharacterController>(); }
+
+        if (_characterSettings == null)
+        { _characterSettings = GetComponent<CharacterSettings>(); }
+
+        if (_moveControl == null)
         { _moveControl = GetComponent<MoveControl>(); }
 
         if(_tpsCameraControl == null)
@@ -205,6 +233,8 @@ public class PlayerCharacterController : MonoBehaviour
         PlayerInputReceiver.OnPlayerSprint += PlayerSprint;
         PlayerInputReceiver.OnPlayerJump += PlayerJump;
 
+        PlayerInputReceiver.OnPlayerCrouch += PlayerCrouch;
+
 
         if (_groundCheck == null)
         { _groundCheck = GetComponent<GroundCheck>(); }
@@ -220,6 +250,8 @@ public class PlayerCharacterController : MonoBehaviour
 
         PlayerInputReceiver.OnPlayerSprint -= PlayerSprint;
         PlayerInputReceiver.OnPlayerJump -= PlayerJump;
+
+        PlayerInputReceiver.OnPlayerCrouch -= PlayerCrouch;
 
         _groundCheck?.OnChangeGroundObject.RemoveListener(PlayerChangeObject);
     }
@@ -281,8 +313,14 @@ public class PlayerCharacterController : MonoBehaviour
     }
 
 
+    #endregion
 
+    #region PlayerCrouch
 
+    public void PlayerCrouch(bool crouch)
+    {
+        IsCrouch = crouch;
+    }
     #endregion
 
 
@@ -296,7 +334,7 @@ public class PlayerCharacterController : MonoBehaviour
             //空中時は移動スピードを変更できない
         }
         //かがみ中
-        else if (CanCrunch && isCrunch)
+        else if (CanCrunch && _isCrunch)
         {
             speed = Speed_Crouch;
         }
@@ -316,6 +354,33 @@ public class PlayerCharacterController : MonoBehaviour
 
     protected void SetJump()
     {
+
+    }
+
+    protected void RefreshCrouch(bool crouch)
+    {
+
+        if(crouch)
+        {
+            CharacterNowHeight = CharacterOriginalHeightCrouching;
+        }
+        else
+        {
+            CharacterNowHeight  = CharacterOriginalHeightStanding;
+        }
+        RefreshComponentsPlayerHeight();
+    }
+    protected void RefreshComponentsPlayerHeight()
+    {
+        _characterController.height = CharacterNowHeight;
+        _characterSettings.Height = CharacterNowHeight;
+        
+        var v3 = _cameraRootTransform.localPosition;
+        v3 = new Vector3(v3.x, CharacterNowHeight - CameraRootOffset.y, v3.z);
+        _cameraRootTransform.localPosition = v3;
+
+
+
 
     }
     
