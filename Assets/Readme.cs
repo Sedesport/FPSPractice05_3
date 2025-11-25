@@ -175,6 +175,15 @@ public class Readme : MonoBehaviour
         
         ④GravityコンポーネントとGroundCheckコンポーネントを追加する。2つセット
 
+
+
+
+
+
+    //--------------------------------------------------------------------------------------------//
+    3rd Person化するには　https://nekojara.city/unity-3rd-person-camera
+    カクカクする、ブレる、などの問題も↑に書いてあったりする
+
      */
 
 
